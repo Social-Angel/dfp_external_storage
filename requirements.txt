@@ -1,2 +1,2 @@
 # frappe -- https://github.com/frappe/frappe is installed via 'bench init'
-minio == 7.2.15
+minio==7.2.15
