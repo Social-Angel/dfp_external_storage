@@ -1,24 +1,22 @@
 [project]
 name = "dfp_external_storage"
 authors = [
-    { name = "DevelopmentForPeople", email = "developmentforpeople@gmail.com"}
+    { name = "DevelopmentForPeople", email = "developmentforpeople@gmail.com" }
 ]
 description = "S3 compatible external storage for Frappe and ERPNext"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]
 dependencies = [
-    # "frappe~=15.0.0" # Installed and managed by bench.
     "minio==7.2.15"
 ]
 
 [build-system]
-requires = ["flit_core >=3.4,<4"]
+requires = ["flit_core>=3.4,<4"]
 build-backend = "flit_core.buildapi"
 
-# These dependencies are only installed when developer mode is enabled
 [tool.bench.dev-dependencies]
-# package_name = "~=1.1.0"
+# dev dependencies go here
 
 [project.urls]
 Homepage = "https://github.com/developmentforpeople/dfp_external_storage"
