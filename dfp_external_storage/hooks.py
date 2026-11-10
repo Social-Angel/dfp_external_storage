@@ -97,8 +97,11 @@ app_include_css = "dfp_external_storage.app.bundle.css"
 # override_doctype_class = {
 # 	"ToDo": "custom_app.overrides.CustomToDo"
 # }
-override_doctype_class = {
-	"File": "dfp_external_storage.dfp_external_storage.doctype.dfp_external_storage.dfp_external_storage.DFPExternalStorageFile",
+# Extend File rather than override it: an override is replaced by any app
+# installed later that also overrides File (Drive does on Frappe 16.55), and
+# then no file stored in a bucket can be served.
+extend_doctype_class = {
+	"File": ["dfp_external_storage.dfp_external_storage.doctype.dfp_external_storage.dfp_external_storage.DFPExternalStorageFile"],
 }
 
 page_renderer = [
