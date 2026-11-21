@@ -134,8 +134,14 @@ class DFPExternalStorage(Document):
 					os.getenv("MINIO_ACCESS_KEY") or \
 					os.getenv("MINIO_ROOT_USER")
 
-				# Resolve secret key
-				if self.is_new() and self.secret_key:
+				# Resolve secret key. A secret typed into the form (a new document, or an existing one
+				# whose key is being changed) is used as given; the stored one only while the field holds
+				# Frappe's masked placeholder ("*****"), as it does whenever the document is loaded.
+				# validate() runs before Frappe stores and masks the new secret (Document._save_passwords),
+				# so the typed value is still here when validate_bucket() connects. Reading the stored
+				# secret for a changed key paired the new access key with the old secret, and no key
+				# could ever be rotated from the form.
+				if self.secret_key and (self.is_new() or not self.is_dummy_password(self.secret_key)):
 					key_secret = self.secret_key
 				elif self.secret_key:
 					key_secret = get_decrypted_password("DFP External Storage", self.name, "secret_key") if self.name else None
