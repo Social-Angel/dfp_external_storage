@@ -395,8 +395,12 @@ class DFPExternalStorageFile(File):
 			# File already on S3
 			return False
 		if self.file_url and self.file_url.startswith(URL_PREFIXES):
-			# frappe.throw(_("Not implemented save http(s)://file(s) to local."))
-			raise NotImplementedError("http(s)://file(s) not ready to be saved to local or external storage(s).")
+			# A web link (e.g. an organisation's logo URL in an Attach field) stays a plain link, as in
+			# Frappe itself: nothing to upload. It used to raise NotImplementedError, which Frappe's
+			# attach_files_to_document logged as "Error Attaching File" on every save of such a record
+			# (SocialAngel production, 27 Nov 2026: 16 errors from one lead conversion).
+			self.dfp_external_storage = ""
+			return False
 
 		original_file_url = self.file_url
 
